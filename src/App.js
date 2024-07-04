@@ -104,9 +104,9 @@ function App() {
       {visibleService && (
         <ListService onBack={() => setVisibleService(false)} />
       )}
-      {/* <ModalLogin /> */}
-      {/* <ModalOTP /> */}
-      {/* <ModalPassword /> */}
+      <ModalLogin />
+      <ModalOTP />
+      <ModalPassword />
     </div>
   );
 }
