@@ -62,16 +62,16 @@ export default function ModalOTP() {
         dialogClassName="width-450"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Nhập mã OTP</Modal.Title>
+          <Modal.Title className="title-modal">Nhập mã OTP</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <div className="text-center" style={{ fontSize: 18 }}>
+          <div className="text-center content-modal">
             Nhập mã OTP (6 số) đã gửi về số điện thoại <div>0528310199</div>
           </div>
           <Form className="my-3">
-            <Row className="justify-content-center">
+            <Row className="justify-content-center gap-3">
               {otp.map((data, index) => (
-                <Col key={index} xs="auto">
+                <Col key={index} xs="auto px-0">
                   <Form.Control
                     ref={(el) => (inputRefs.current[index] = el)}
                     type="text"
@@ -82,18 +82,14 @@ export default function ModalOTP() {
                     // onChange={(e) => handleChange(e.target, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
                     onPaste={handlePaste}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      textAlign: "center",
-                      border: "2px solid rgb(163, 163, 163)",
-                    }}
                   />
                 </Col>
               ))}
             </Row>
           </Form>
-          <div className="text-center">00:04:00</div>
+          <div className="text-center text-primary" style={{ fontSize: 12 }}>
+            00:04:00
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button

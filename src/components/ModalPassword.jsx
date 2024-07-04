@@ -62,32 +62,26 @@ export default function ModalPassword() {
         dialogClassName="width-450"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Nhập mật khẩu</Modal.Title>
+          <Modal.Title className="title-modal">Nhập mật khẩu</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <div className="text-center" style={{ fontSize: 18 }}>
+          <div className="text-center content-modal">
             Nhập mật khẩu của tài khoản: <span>0528310199</span>
           </div>
-          <Form className="my-3">
-            <Row className="justify-content-center">
+          <Form className="my-3 px-3">
+            <Row className="justify-content-between gap-2">
               {otp.map((data, index) => (
-                <Col key={index} xs="auto">
+                <Col key={index} xs="auto px-0">
                   <Form.Control
                     ref={(el) => (inputRefs.current[index] = el)}
                     type="text"
-                    className="otp-input"
+                    className="otp-input password-input"
                     maxLength="1"
                     id={`otpInput-${index}`}
                     defaultValue={data}
                     // onChange={(e) => handleChange(e.target, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
                     onPaste={handlePaste}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      textAlign: "center",
-                      border: "2px solid rgb(163, 163, 163)",
-                    }}
                   />
                 </Col>
               ))}
@@ -100,14 +94,16 @@ export default function ModalPassword() {
             <Button
               variant="outline-secondary"
               onClick={handleClose}
-              className="w-50 py-2 fs-5"
+              className="w-50 py-2"
+              style={{ fontSize: 14 }}
             >
               Quay lại
             </Button>
             <Button
               variant="primary"
               onClick={handleClose}
-              className="w-50 py-2 fs-5"
+              className="w-50 py-2"
+              style={{ fontSize: 18 }}
             >
               Tiếp tục
             </Button>
