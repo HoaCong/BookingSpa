@@ -1,38 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-export default function ModalPassword() {
-  const [show, setShow] = useState(true);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+export default function ModalPassword({ visible, onClose, onSubmit }) {
   const inputRefs = useRef([]);
   const [password, setPassword] = useState(new Array(6).fill(""));
 
   useEffect(() => {
-    handleShow();
     inputRefs.current[0].focus();
   }, []);
 
-  // const handleChange = (element, index) => {
-  //   // Only allow a single digit (0-9) or an empty string
-  //   if (/^[0-9]$/.test(element.value) || element.value === "") {
-  //     let newPassword = [...password];
-  //     newPassword[index] = element.value;
-  //     setPassword(newPassword);
-
-  //     // Move to next input if input is a number and it's not the last input
-  //     if (element.value !== "" && index < 5) {
-  //       document.getElementById(`passwordInput-${index + 1}`).focus();
-  //     }
-  //   }
-  // };
-  const handleKeyDown = (event, index) => {
-    if (/^[0-9]$/.test(event.key)) {
-      let newPassword = [...password];
-      newPassword[index] = event.key;
-      setPassword(newPassword);
+  const handleChange = (element, index) => {
+    if (/^[0-9]$/.test(element.value) || element.value === "") {
+      setPassword((oldValue) => {
+        const newValue = [...oldValue];
+        newValue[index] = element.value;
+        inputRefs.current[index].value = element.value;
+        return newValue;
+      });
       if (index < 5) {
-        document.getElementById(`passwordInput-${index + 1}`).focus();
+        inputRefs.current[index + 1].focus();
+      }
+    }
+  };
+  const handleKeyDown = (event, data, index) => {
+    if (/^[0-9]$/.test(event.key) && data !== "") {
+      setPassword((oldValue) => {
+        const newValue = [...oldValue];
+        newValue[index] = event.key;
+        inputRefs.current[index].value = event.key;
+        return newValue;
+      });
+      if (index < 5) {
+        inputRefs.current[index + 1].focus();
       }
     }
   };
@@ -42,7 +40,6 @@ export default function ModalPassword() {
       let newPassword = value.split("");
       setPassword(newPassword);
     } else {
-      // đưa cái alert lên
       alert("Vui lòng nhập một chuỗi gồm 6 chữ số.");
     }
   };
@@ -56,8 +53,8 @@ export default function ModalPassword() {
   return (
     <>
       <Modal
-        show={show}
-        onHide={handleClose}
+        show={visible}
+        onHide={onClose}
         centered
         dialogClassName="width-450"
       >
@@ -76,11 +73,11 @@ export default function ModalPassword() {
                   ref={(el) => (inputRefs.current[index] = el)}
                   type="text"
                   className="password-input"
-                  maxLength="1"
+                  maxLength={1}
                   id={`passwordInput-${index}`}
                   defaultValue={data}
-                  // onChange={(e) => handleChange(e.target, index)}
-                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onChange={(e) => handleChange(e.target, index)}
+                  onKeyDown={(e) => handleKeyDown(e, data, index)}
                   onPaste={handlePaste}
                 />
               ))}
@@ -92,14 +89,14 @@ export default function ModalPassword() {
           <div className="d-flex w-100 gap-3">
             <Button
               variant="outline-secondary"
-              onClick={handleClose}
+              onClick={onClose}
               className="w-50 py-2 text-14"
             >
               Quay lại
             </Button>
             <Button
               variant="primary"
-              onClick={handleClose}
+              onClick={() => onSubmit(password)}
               className="w-50 py-2 text-18"
             >
               Tiếp tục
