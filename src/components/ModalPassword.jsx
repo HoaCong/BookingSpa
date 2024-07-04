@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 export default function ModalPassword() {
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const inputRefs = useRef([]);
-  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const [password, setPassword] = useState(new Array(6).fill(""));
 
   useEffect(() => {
     handleShow();
@@ -16,31 +16,31 @@ export default function ModalPassword() {
   // const handleChange = (element, index) => {
   //   // Only allow a single digit (0-9) or an empty string
   //   if (/^[0-9]$/.test(element.value) || element.value === "") {
-  //     let newOtp = [...otp];
-  //     newOtp[index] = element.value;
-  //     setOtp(newOtp);
+  //     let newPassword = [...password];
+  //     newPassword[index] = element.value;
+  //     setPassword(newPassword);
 
   //     // Move to next input if input is a number and it's not the last input
   //     if (element.value !== "" && index < 5) {
-  //       document.getElementById(`otpInput-${index + 1}`).focus();
+  //       document.getElementById(`passwordInput-${index + 1}`).focus();
   //     }
   //   }
   // };
   const handleKeyDown = (event, index) => {
     if (/^[0-9]$/.test(event.key)) {
-      let newOtp = [...otp];
-      newOtp[index] = event.key;
-      setOtp(newOtp);
+      let newPassword = [...password];
+      newPassword[index] = event.key;
+      setPassword(newPassword);
       if (index < 5) {
-        document.getElementById(`otpInput-${index + 1}`).focus();
+        document.getElementById(`passwordInput-${index + 1}`).focus();
       }
     }
   };
 
   const parseAndFillOTP = (value) => {
     if (value.length === 6 && /^[0-9]+$/.test(value)) {
-      let newOtp = value.split("");
-      setOtp(newOtp);
+      let newPassword = value.split("");
+      setPassword(newPassword);
     } else {
       // đưa cái alert lên
       alert("Vui lòng nhập một chuỗi gồm 6 chữ số.");
@@ -65,45 +65,42 @@ export default function ModalPassword() {
           <Modal.Title className="title-modal">Nhập mật khẩu</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <div className="text-center content-modal">
+          <div className="text-center content-modal px-4">
             Nhập mật khẩu của tài khoản: <span>0528310199</span>
           </div>
-          <Form className="my-3 px-3">
-            <Row className="justify-content-between gap-2">
-              {otp.map((data, index) => (
-                <Col key={index} xs="auto px-0">
-                  <Form.Control
-                    ref={(el) => (inputRefs.current[index] = el)}
-                    type="text"
-                    className="otp-input password-input"
-                    maxLength="1"
-                    id={`otpInput-${index}`}
-                    defaultValue={data}
-                    // onChange={(e) => handleChange(e.target, index)}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
-                    onPaste={handlePaste}
-                  />
-                </Col>
+          <Form className="my-3 px-2 px-md-3 mt-4">
+            <div className="d-flex justify-content-between">
+              {password.map((data, index) => (
+                <Form.Control
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  type="text"
+                  className="password-input"
+                  maxLength="1"
+                  id={`passwordInput-${index}`}
+                  defaultValue={data}
+                  // onChange={(e) => handleChange(e.target, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onPaste={handlePaste}
+                />
               ))}
-            </Row>
+            </div>
           </Form>
-          <div className="text-center">Quên mật khẩu</div>
+          <div className="text-center text-14 text-primary">Quên mật khẩu</div>
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex w-100 gap-3">
             <Button
               variant="outline-secondary"
               onClick={handleClose}
-              className="w-50 py-2"
-              style={{ fontSize: 14 }}
+              className="w-50 py-2 text-14"
             >
               Quay lại
             </Button>
             <Button
               variant="primary"
               onClick={handleClose}
-              className="w-50 py-2"
-              style={{ fontSize: 18 }}
+              className="w-50 py-2 text-18"
             >
               Tiếp tục
             </Button>

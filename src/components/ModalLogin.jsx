@@ -20,16 +20,16 @@ export default function ModalLogin() {
         dialogClassName="width-450"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Đăng nhập</Modal.Title>
+          <Modal.Title className="title-modal">Đăng nhập</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <div style={{ fontSize: 18 }}>Số điện thoại của bạn là gì ạ?</div>
+          <div class="text-18">Số điện thoại của bạn là gì ạ?</div>
           <Form.Control
             type="text"
             id="phone"
             aria-describedby="phoneHelpBlock"
             placeholder="Nhập số điện thoại của bạn"
-            className="mt-3"
+            className="mt-3 py-2"
           />
         </Modal.Body>
         <Modal.Footer>

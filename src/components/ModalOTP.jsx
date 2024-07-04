@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 export default function ModalOTP() {
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
@@ -65,27 +65,26 @@ export default function ModalOTP() {
           <Modal.Title className="title-modal">Nhập mã OTP</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <div className="text-center content-modal">
-            Nhập mã OTP (6 số) đã gửi về số điện thoại <div>0528310199</div>
+          <div className="text-center px-4">
+            Nhập mã OTP (6 số) đã gửi về số điện thoại <span>0528310199</span>
           </div>
           <Form className="my-3">
-            <Row className="justify-content-center gap-3">
+            <div className="d-flex justify-content-center gap-3">
               {otp.map((data, index) => (
-                <Col key={index} xs="auto px-0">
-                  <Form.Control
-                    ref={(el) => (inputRefs.current[index] = el)}
-                    type="text"
-                    className="otp-input"
-                    maxLength="1"
-                    id={`otpInput-${index}`}
-                    defaultValue={data}
-                    // onChange={(e) => handleChange(e.target, index)}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
-                    onPaste={handlePaste}
-                  />
-                </Col>
+                <Form.Control
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  type="text"
+                  className="otp-input"
+                  maxLength="1"
+                  id={`otpInput-${index}`}
+                  defaultValue={data}
+                  // onChange={(e) => handleChange(e.target, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onPaste={handlePaste}
+                />
               ))}
-            </Row>
+            </div>
           </Form>
           <div className="text-center text-primary" style={{ fontSize: 12 }}>
             00:04:00
