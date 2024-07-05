@@ -51,6 +51,14 @@ body {
   width: 500px;
   max-width: 100%;
 }
+.react-datepicker-wrapper {
+  display: block;
+}
+.react-datepicker-popper {
+  z-index: 1607;
+}
+
+/* end common css */
 .logo {
   width: 132px;
   height: 51px;

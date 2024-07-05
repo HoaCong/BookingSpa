@@ -2,8 +2,9 @@ import { Toast, ToastContainer } from "react-bootstrap";
 
 function ToastSnackbar({ toasts, setToasts }) {
   const handleClose = (toast) => {
-    const newToasts = toasts.filter((item) => item.key !== toast.key);
-    setToasts(newToasts);
+    setToasts((prevToast) =>
+      prevToast.filter((item) => item.key !== toast.key)
+    );
   };
   return (
     <ToastContainer
@@ -13,7 +14,7 @@ function ToastSnackbar({ toasts, setToasts }) {
     >
       {toasts.map((toast, index) => (
         <Toast
-          key={toast.key}
+          key={`${toast.key}-${index}`}
           autohide
           delay={3000}
           className={`mb-3 bg-light border border-${toast.type}`}

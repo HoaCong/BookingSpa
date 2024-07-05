@@ -4,6 +4,7 @@ import ModalPhone from "./components/ModalPhone";
 // import ModalOTP from "./components/ModalOTP";
 import Booking3Step from "components/Booking3Step";
 import ToastSnackbar from "components/ToastSnackbar";
+import { format } from "date-fns";
 import { get, post } from "helper/ajax";
 import ModalPassword from "./components/ModalPassword";
 const initialData = {
@@ -108,35 +109,64 @@ function App() {
 
   const handleSubmit = async () => {
     try {
-      setLoading((prevLoading) => ({ ...prevLoading, booking: true }));
-      const { data: res } = await post("/api/booking/create", {
-        idcustomer: localStorage.getItem("idcustomer"),
-        phone: localStorage.getItem("phone"),
-        note: data.note,
-        factoryid: data.factory.id,
-        services: JSON.stringify(
-          data.services.map((item) => ({
-            id: item.id,
-            name: `${item.name} - ${item.numbersesion} buổi`,
-          }))
-        ),
-        time: `${data.date}T${data.time}:00.000Z`,
-      });
-      if (res.status) {
-        handleAddToast({
-          text: "Đặt lịch thành công",
-          type: "success",
-          title: "",
-        });
-        setData(initialData);
+      if (
+        !data.factory?.id ||
+        !data.services.length ||
+        !data.date ||
+        !data.time
+      ) {
+        if (!data.factory?.id) {
+          handleAddToast({
+            text: "Bạn chưa chọn cơ sở",
+            type: "danger",
+            title: "",
+          });
+        }
+        if (!data.services.length) {
+          handleAddToast({
+            text: "Bạn chưa chọn dịch vụ",
+            type: "danger",
+            title: "",
+          });
+        }
+        if (!data.date || !data.time) {
+          handleAddToast({
+            text: "Bạn chưa chọn thời gian",
+            type: "danger",
+            title: "",
+          });
+        }
       } else {
-        handleAddToast({
-          text: "Đặt lịch thất bại",
-          type: "danger",
-          title: "",
+        setLoading((prevLoading) => ({ ...prevLoading, booking: true }));
+        const { data: res } = await post("/api/booking/create", {
+          idcustomer: localStorage.getItem("idcustomer"),
+          phone: localStorage.getItem("phone"),
+          note: data.note,
+          factoryid: data.factory.id,
+          services: JSON.stringify(
+            data.services.map((item) => ({
+              id: item.id,
+              name: `${item.name} - ${item.numbersesion} buổi`,
+            }))
+          ),
+          time: `${format(data.date, "yyyy-MM-dd")}T${data.time}:00.000Z`,
         });
+        if (res.status) {
+          handleAddToast({
+            text: "Đặt lịch thành công",
+            type: "success",
+            title: "",
+          });
+          setData(initialData);
+        } else {
+          handleAddToast({
+            text: "Đặt lịch thất bại",
+            type: "danger",
+            title: "",
+          });
+        }
+        setLoading((prevLoading) => ({ ...prevLoading, booking: false }));
       }
-      setLoading((prevLoading) => ({ ...prevLoading, booking: false }));
     } catch (error) {
       setLoading((prevLoading) => ({ ...prevLoading, booking: false }));
       handleAddToast({

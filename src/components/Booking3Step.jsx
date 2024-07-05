@@ -1,5 +1,6 @@
 import { formatCurrency } from "helper/forrmatCurrency";
 import { Button, Form } from "react-bootstrap";
+import DatePicker from "react-datepicker";
 import SwiperTime from "./SwiperTime";
 export default function Booking3Step({
   data: { data, factories, loading },
@@ -114,20 +115,18 @@ export default function Booking3Step({
 
               <li className="timeline-item text-input">
                 <div className="title-timeline">3. Chọn thời gian</div>
-                <Form className="mt-2">
-                  <Form.Group className="mb-3" controlId="form.date">
-                    <Form.Control
-                      disabled={!data.factory}
-                      type="date"
-                      placeholder="Chọn thời gian"
-                      className="text-input"
-                      value={data.date}
-                      onChange={(e) =>
-                        setData({ ...data, date: e.target.value })
-                      }
-                    />
-                  </Form.Group>
-                </Form>
+                <div className="mt-2">
+                  <DatePicker
+                    disabled={!data.factory}
+                    placeholderText="Chọn thời gian"
+                    selected={data.date}
+                    dateFormat="dd/MM/yyyy" // Định dạng ngày
+                    className="form-control w-100 text-14"
+                    onChange={(date) => {
+                      setData({ ...data, date });
+                    }}
+                  />
+                </div>
                 {/* <div className="p-3 border rounded-3 text-center alert-time">
                 Cơ sở đã quá tải vào ngày này, vui lòng chọn cơ sở khác
                 hoặc ngày sau đó
