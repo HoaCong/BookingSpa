@@ -27,24 +27,21 @@ const Check = () => (
   </svg>
 );
 
-export default function ListService({ list, selected = [], onBack, onSelect }) {
-  console.log("ListService  selected:", selected);
-  const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   setData();
-  //   return () => {
-  //     // second
-  //   };
-  // }, []);
-
+export default function ListService({
+  list,
+  prevSelected = [],
+  onBack,
+  onSelect,
+}) {
+  const [selected, setSelected] = useState(prevSelected);
   const handleChoose = (item) => {
-    setData((oldData) => {
-      if (data.includes(item)) return oldData.filter((e) => e !== item);
-      return [...oldData, item];
+    setSelected((prevData) => {
+      if (selected.includes(item)) return prevData.filter((e) => e !== item);
+      return [...prevData, item];
     });
   };
   const handleSelect = () => {
-    onSelect(data);
+    onSelect(selected);
   };
 
   const scrollToId = (id) => {
@@ -101,12 +98,12 @@ export default function ListService({ list, selected = [], onBack, onSelect }) {
                     <Button
                       // variant="outline-primary"
                       variant={
-                        data?.includes(item) ? "primary" : "outline-primary"
+                        selected?.includes(item) ? "primary" : "outline-primary"
                       }
                       className="w-100"
                       onClick={() => handleChoose(item)}
                     >
-                      {data?.includes(item) ? (
+                      {selected?.includes(item) ? (
                         <span className="d-flex justify-content-center align-items-center gap-2">
                           <Check />
                           <span>Đã chọn</span>
@@ -127,7 +124,7 @@ export default function ListService({ list, selected = [], onBack, onSelect }) {
             className="w-100"
             onClick={() => handleSelect()}
           >
-            Tiếp tục ({data.length} dịch vụ)
+            Tiếp tục ({selected.length} dịch vụ)
           </Button>
         </div>
       </div>

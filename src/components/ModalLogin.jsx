@@ -1,8 +1,21 @@
+import { get } from "helper/ajax";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 export default function ModalLogin({ visible, onClose, onSubmit }) {
   const [phone, setPhone] = useState("");
+  const handleCheckPhone = async () => {
+    try {
+      const { data } = await get(`/api/customer/check/${phone}`);
+      if (!data.status) {
+        onSubmit(phone);
+      } else {
+        alert("Không tìm thấy người dùng");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
   return (
     <>
       <Modal
@@ -28,8 +41,9 @@ export default function ModalLogin({ visible, onClose, onSubmit }) {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            disabled={!phone}
             variant="primary"
-            onClick={() => onSubmit(phone)}
+            onClick={handleCheckPhone}
             className="w-100 py-2 fs-5"
           >
             Tiếp tục
