@@ -8,6 +8,7 @@ export default function ModalPhone({
   visible,
   onClose,
   onSubmit,
+  handleAddToast,
 }) {
   const [phone, setPhone] = useState("");
   const handleCheckPhone = async () => {
@@ -17,12 +18,20 @@ export default function ModalPhone({
       if (!data.status) {
         onSubmit(phone);
       } else {
-        alert("Không tìm thấy người dùng");
+        handleAddToast({
+          text: "Không tìm thấy người dùng",
+          type: "danger",
+          title: "",
+        });
       }
       setLoading((prevLoading) => ({ ...prevLoading, phone: false }));
     } catch (error) {
       setLoading((prevLoading) => ({ ...prevLoading, phone: false }));
-      alert(error);
+      handleAddToast({
+        text: "Xảy ra lỗi hệ thống",
+        type: "danger",
+        title: "",
+      });
     }
   };
   return (

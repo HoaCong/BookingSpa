@@ -1,3 +1,4 @@
+import { formatCurrencyToK } from "helper/forrmatCurrency";
 import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 const ArrowLeft = () => (
@@ -92,7 +93,7 @@ export default function ListService({
                         Thời gian: {item.time}
                       </div>
                       <div className="text-primary price-service">
-                        {item.price / 1000}K
+                        {formatCurrencyToK(item.price)}
                       </div>
                     </div>
                     <Button

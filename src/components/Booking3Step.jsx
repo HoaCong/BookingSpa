@@ -1,3 +1,4 @@
+import { formatCurrency } from "helper/forrmatCurrency";
 import { Button, Form } from "react-bootstrap";
 import SwiperTime from "./SwiperTime";
 export default function Booking3Step({
@@ -77,7 +78,9 @@ export default function Booking3Step({
                           <div>
                             {index + 1}. {item.name} - {item.numbersesion} buổi
                           </div>
-                          <div className="ms-auto">{item.price} ₫</div>
+                          <div className="ms-auto">
+                            {formatCurrency(item.price)}
+                          </div>
                           <span className="cursor-pointer">
                             <i
                               className="fas fa-times text-primary"
@@ -89,7 +92,9 @@ export default function Booking3Step({
                       <div className="d-flex">
                         <div>Tổng:</div>
                         <div className="ms-auto">
-                          {data.services.reduce((s, i) => (s += i.price), 0)} ₫
+                          {formatCurrency(
+                            data.services.reduce((s, i) => (s += i.price), 0)
+                          )}
                         </div>
                       </div>
                     </div>

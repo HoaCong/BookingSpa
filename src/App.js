@@ -3,6 +3,7 @@ import ListService from "./components/ListService";
 import ModalPhone from "./components/ModalPhone";
 // import ModalOTP from "./components/ModalOTP";
 import Booking3Step from "components/Booking3Step";
+import ToastSnackbar from "components/ToastSnackbar";
 import { get, post } from "helper/ajax";
 import ModalPassword from "./components/ModalPassword";
 const initialData = {
@@ -19,6 +20,7 @@ const initialLoading = {
   booking: false,
 };
 function App() {
+  const [toasts, setToasts] = useState([]);
   const [visibleService, setVisibleService] = useState(false);
   const [login, setLogin] = useState({ phone: "", codepin: "" });
   const [visibleLogin, setVisibleLogin] = useState(false);
@@ -69,10 +71,19 @@ function App() {
         setVisiblePassword(false);
         callApiService();
       } else {
-        alert(data.message);
+        handleAddToast({
+          text: "Mật khẩu không chính xác",
+          type: "danger",
+          title: "",
+        });
       }
       setLoading((prevLoading) => ({ ...prevLoading, login: false }));
     } catch (error) {
+      handleAddToast({
+        text: "Xảy ra lỗi hệ thống",
+        type: "danger",
+        title: "",
+      });
       setLoading((prevLoading) => ({ ...prevLoading, login: false }));
     }
   };
@@ -112,13 +123,39 @@ function App() {
         time: `${data.date}T${data.time}:00.000Z`,
       });
       if (res.status) {
-        alert("Đặt lịch thành công");
+        handleAddToast({
+          text: "Đặt lịch thành công",
+          type: "success",
+          title: "",
+        });
         setData(initialData);
+      } else {
+        handleAddToast({
+          text: "Đặt lịch thất bại",
+          type: "danger",
+          title: "",
+        });
       }
       setLoading((prevLoading) => ({ ...prevLoading, booking: false }));
     } catch (error) {
       setLoading((prevLoading) => ({ ...prevLoading, booking: false }));
+      handleAddToast({
+        text: "Đặt lịch thất bại",
+        type: "danger",
+        title: "",
+      });
     }
+  };
+
+  const handleAddToast = (toast) => {
+    const time = new Date().getTime();
+    setToasts((prevToasts) => [
+      ...prevToasts,
+      {
+        ...toast,
+        key: time,
+      },
+    ]);
   };
 
   // call API
@@ -176,6 +213,7 @@ function App() {
           setLoading={setLoading}
           onClose={() => login.phone && setVisibleLogin(false)}
           onSubmit={(phone) => handleEnterPhone(phone)}
+          handleAddToast={handleAddToast}
         />
       )}
       {/* <ModalOTP /> */}
@@ -193,6 +231,7 @@ function App() {
           onSubmit={(password) => handleSubmitPassword(password)}
         />
       )}
+      <ToastSnackbar toasts={toasts} setToasts={setToasts} />
     </div>
   );
 }
