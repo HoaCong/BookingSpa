@@ -181,6 +181,7 @@ function App() {
       {/* <ModalOTP /> */}
       {visiblePassword && (
         <ModalPassword
+          phone={login.phone}
           visible={visiblePassword}
           loading={loading.login}
           setLoading={setLoading}

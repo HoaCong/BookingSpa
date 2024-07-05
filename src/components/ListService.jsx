@@ -81,9 +81,9 @@ export default function ListService({
           <div className="row row-cols-2 g-3">
             {list.map((item) => (
               <div className="col" key={item.id} id={item.category}>
-                <Card>
+                <Card className="h-100">
                   <Card.Img variant="top" src={item.image} />
-                  <Card.Body className="p-2">
+                  <Card.Body className="p-2 d-flex flex-column">
                     <Card.Title className="title-service">
                       {item.name} - {item.numbersesion} buổi
                     </Card.Title>
@@ -100,7 +100,7 @@ export default function ListService({
                       variant={
                         selected?.includes(item) ? "primary" : "outline-primary"
                       }
-                      className="w-100"
+                      className="w-100 mt-auto"
                       onClick={() => handleChoose(item)}
                     >
                       {selected?.includes(item) ? (

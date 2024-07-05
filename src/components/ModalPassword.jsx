@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-export default function ModalPassword({ loading, visible, onClose, onSubmit }) {
+export default function ModalPassword({
+  loading,
+  phone,
+  visible,
+  onClose,
+  onSubmit,
+}) {
   const inputRefs = useRef([]);
   const [password, setPassword] = useState(new Array(6).fill(""));
 
@@ -63,7 +69,7 @@ export default function ModalPassword({ loading, visible, onClose, onSubmit }) {
         </Modal.Header>
         <Modal.Body className="text-center">
           <div className="text-center content-modal px-4">
-            Nhập mật khẩu của tài khoản: <span>0528310199</span>
+            Nhập mật khẩu của tài khoản: <span>{phone}</span>
           </div>
           <Form className="my-3 px-2 px-md-3 mt-4">
             <div className="d-flex justify-content-between">
