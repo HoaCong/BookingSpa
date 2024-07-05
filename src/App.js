@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ListService from "./components/ListService";
-import ModalLogin from "./components/ModalLogin";
+import ModalPhone from "./components/ModalPhone";
 // import ModalOTP from "./components/ModalOTP";
 import Booking3Step from "components/Booking3Step";
 import { get, post } from "helper/ajax";
@@ -12,6 +12,12 @@ const initialData = {
   time: null,
   note: "",
 };
+const initialLoading = {
+  factories: false,
+  phone: false,
+  login: false,
+  booking: false,
+};
 function App() {
   const [visibleService, setVisibleService] = useState(false);
   const [login, setLogin] = useState({ phone: "", codepin: "" });
@@ -20,6 +26,7 @@ function App() {
   const [factories, setFactories] = useState([]);
   const [services, setServices] = useState([]);
   const [data, setData] = useState(initialData);
+  const [loading, setLoading] = useState(initialLoading);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -48,19 +55,25 @@ function App() {
   };
 
   const handleSubmitPassword = async (password) => {
-    const codepin = password.join("");
-    setLogin((prevData) => ({ ...prevData, codepin }));
-    const { data } = await post("/api/customer/login", { ...login, codepin });
-    // call api
-    if (data.status) {
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("expired", new Date().getTime() + 43200000);
-      localStorage.setItem("idcustomer", data.customer.id);
-      localStorage.setItem("phone", data.customer.phone);
-      setVisiblePassword(false);
-      callApiService();
-    } else {
-      alert(data.message);
+    try {
+      const codepin = password.join("");
+      setLogin((prevData) => ({ ...prevData, codepin }));
+      setLoading((prevLoading) => ({ ...prevLoading, login: true }));
+      const { data } = await post("/api/customer/login", { ...login, codepin });
+      // call api
+      if (data.status) {
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("expired", new Date().getTime() + 43200000);
+        localStorage.setItem("idcustomer", data.customer.id);
+        localStorage.setItem("phone", data.customer.phone);
+        setVisiblePassword(false);
+        callApiService();
+      } else {
+        alert(data.message);
+      }
+      setLoading((prevLoading) => ({ ...prevLoading, login: false }));
+    } catch (error) {
+      setLoading((prevLoading) => ({ ...prevLoading, login: false }));
     }
   };
 
@@ -83,22 +96,28 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    const { data: res } = await post("/api/booking/create", {
-      idcustomer: localStorage.getItem("idcustomer"),
-      phone: localStorage.getItem("phone"),
-      note: data.note,
-      factoryid: data.factory.id,
-      services: JSON.stringify(
-        data.services.map((item) => ({
-          id: item.id,
-          name: `${item.name} - ${item.numbersesion} buổi`,
-        }))
-      ),
-      time: `${data.date}T${data.time}:00.000Z`,
-    });
-    if (res.status) {
-      alert("Đặt lịch thành công");
-      setData(initialData);
+    try {
+      setLoading((prevLoading) => ({ ...prevLoading, booking: true }));
+      const { data: res } = await post("/api/booking/create", {
+        idcustomer: localStorage.getItem("idcustomer"),
+        phone: localStorage.getItem("phone"),
+        note: data.note,
+        factoryid: data.factory.id,
+        services: JSON.stringify(
+          data.services.map((item) => ({
+            id: item.id,
+            name: `${item.name} - ${item.numbersesion} buổi`,
+          }))
+        ),
+        time: `${data.date}T${data.time}:00.000Z`,
+      });
+      if (res.status) {
+        alert("Đặt lịch thành công");
+        setData(initialData);
+      }
+      setLoading((prevLoading) => ({ ...prevLoading, booking: false }));
+    } catch (error) {
+      setLoading((prevLoading) => ({ ...prevLoading, booking: false }));
     }
   };
 
@@ -130,6 +149,7 @@ function App() {
           data={{
             data,
             factories,
+            loading: loading.booking,
           }}
           methods={{
             setData,
@@ -137,6 +157,7 @@ function App() {
             handleRemoveService,
             handleChooseService,
             handleSubmit,
+            setLoading,
           }}
         />
       )}
@@ -149,8 +170,10 @@ function App() {
         />
       )}
       {visibleLogin && (
-        <ModalLogin
+        <ModalPhone
           visible={visibleLogin}
+          loading={loading.phone}
+          setLoading={setLoading}
           onClose={() => login.phone && setVisibleLogin(false)}
           onSubmit={(phone) => handleEnterPhone(phone)}
         />
@@ -159,6 +182,8 @@ function App() {
       {visiblePassword && (
         <ModalPassword
           visible={visiblePassword}
+          loading={loading.login}
+          setLoading={setLoading}
           onClose={() => {
             setVisibleLogin(true);
             setVisiblePassword(false);

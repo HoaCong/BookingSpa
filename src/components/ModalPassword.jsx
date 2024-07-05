@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-export default function ModalPassword({ visible, onClose, onSubmit }) {
+export default function ModalPassword({ loading, visible, onClose, onSubmit }) {
   const inputRefs = useRef([]);
   const [password, setPassword] = useState(new Array(6).fill(""));
 
@@ -83,7 +83,9 @@ export default function ModalPassword({ visible, onClose, onSubmit }) {
               ))}
             </div>
           </Form>
-          <div className="text-center text-14 text-primary">Quên mật khẩu</div>
+          <div className="text-center text-14 text-primary cursor-pointer">
+            Quên mật khẩu
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex w-100 gap-3">
@@ -95,10 +97,17 @@ export default function ModalPassword({ visible, onClose, onSubmit }) {
               Quay lại
             </Button>
             <Button
+              disabled={loading}
               variant="primary"
               onClick={() => onSubmit(password)}
-              className="w-50 py-2 text-18"
+              className="w-50 py-2 text-18 d-flex justify-content-center align-items-center"
             >
+              {loading && (
+                <div
+                  className="spinner-border text-white me-2"
+                  role="status"
+                ></div>
+              )}
               Tiếp tục
             </Button>
           </div>

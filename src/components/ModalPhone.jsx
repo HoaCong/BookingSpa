@@ -1,18 +1,27 @@
 import { get } from "helper/ajax";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
-export default function ModalLogin({ visible, onClose, onSubmit }) {
+export default function ModalPhone({
+  loading,
+  setLoading,
+  visible,
+  onClose,
+  onSubmit,
+}) {
   const [phone, setPhone] = useState("");
   const handleCheckPhone = async () => {
     try {
+      setLoading((prevLoading) => ({ ...prevLoading, phone: true }));
       const { data } = await get(`/api/customer/check/${phone}`);
       if (!data.status) {
         onSubmit(phone);
       } else {
         alert("Không tìm thấy người dùng");
       }
+      setLoading((prevLoading) => ({ ...prevLoading, phone: false }));
     } catch (error) {
+      setLoading((prevLoading) => ({ ...prevLoading, phone: false }));
       alert(error);
     }
   };
@@ -41,11 +50,17 @@ export default function ModalLogin({ visible, onClose, onSubmit }) {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            disabled={!phone}
+            disabled={!phone || loading}
             variant="primary"
             onClick={handleCheckPhone}
-            className="w-100 py-2 fs-5"
+            className="w-100 py-2 fs-5 d-flex justify-content-center align-items-center"
           >
+            {loading && (
+              <div
+                className="spinner-border text-white me-2"
+                role="status"
+              ></div>
+            )}
             Tiếp tục
           </Button>
         </Modal.Footer>

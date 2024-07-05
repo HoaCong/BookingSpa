@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import SwiperTime from "./SwiperTime";
 export default function Booking3Step({
-  data: { data, factories },
+  data: { data, factories, loading },
   methods: {
     setData,
     handleSelectAddress,
@@ -153,7 +153,18 @@ export default function Booking3Step({
               onChange={(e) => setData({ ...data, note: e.target.value })}
             />
           </Form.Group>
-          <Button variant="primary" className="w-100" onClick={handleSubmit}>
+          <Button
+            disabled={loading}
+            variant="primary"
+            onClick={handleSubmit}
+            className="w-100 d-flex justify-content-center align-items-center"
+          >
+            {loading && (
+              <div
+                className="spinner-border text-white me-2"
+                role="status"
+              ></div>
+            )}
             Đặt lịch
           </Button>
         </div>
