@@ -1,4 +1,5 @@
 import { get } from "helper/ajax";
+import { isValidPhoneNumber } from "helper/functions";
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
@@ -13,18 +14,18 @@ export default function ModalPhone({
   const [phone, setPhone] = useState("");
   const handleCheckPhone = async () => {
     try {
-      setLoading((prevLoading) => ({ ...prevLoading, phone: true }));
-      const { data } = await get(`/api/customer/check/${phone}`);
-      if (!data.status) {
-        onSubmit(phone);
+      if (isValidPhoneNumber(phone)) {
+        setLoading((prevLoading) => ({ ...prevLoading, phone: true }));
+        const { data } = await get(`/api/customer/check/${phone}`);
+        onSubmit(phone, data.status ? "register" : "login");
+        setLoading((prevLoading) => ({ ...prevLoading, phone: false }));
       } else {
         handleAddToast({
-          text: "Không tìm thấy người dùng",
+          text: "Số điện thoại không hợp lệ",
           type: "danger",
           title: "",
         });
       }
-      setLoading((prevLoading) => ({ ...prevLoading, phone: false }));
     } catch (error) {
       setLoading((prevLoading) => ({ ...prevLoading, phone: false }));
       handleAddToast({

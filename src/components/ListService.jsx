@@ -1,5 +1,5 @@
-import { formatCurrencyToK } from "helper/forrmatCurrency";
-import React, { useEffect, useState } from "react";
+import { formatCurrencyToK } from "helper/functions";
+import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 const ArrowLeft = () => (
   <svg

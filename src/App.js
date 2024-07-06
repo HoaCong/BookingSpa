@@ -23,7 +23,11 @@ const initialLoading = {
 function App() {
   const [toasts, setToasts] = useState([]);
   const [visibleService, setVisibleService] = useState(false);
-  const [login, setLogin] = useState({ phone: "", codepin: "" });
+  const [login, setLogin] = useState({
+    phone: "",
+    codepin: "",
+    type: "login",
+  });
   const [visibleLogin, setVisibleLogin] = useState(false);
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [factories, setFactories] = useState([]);
@@ -51,19 +55,25 @@ function App() {
     };
   }, []);
 
-  const handleEnterPhone = (phone) => {
-    setLogin((prevData) => ({ ...prevData, phone }));
+  const handleEnterPhone = (phone, type) => {
+    setLogin((prevData) => ({ ...prevData, phone, type }));
     setVisibleLogin(false);
     setVisiblePassword(true);
   };
 
-  const handleSubmitPassword = async (password) => {
+  const handleSubmitPassword = async (codepin) => {
+    setLogin((prevData) => ({ ...prevData, codepin }));
+    if (login.type === "login") handleLogin(codepin);
+    else if (login.type === "register") handleRegister(codepin);
+  };
+
+  const handleLogin = async (codepin) => {
     try {
-      const codepin = password.join("");
-      setLogin((prevData) => ({ ...prevData, codepin }));
       setLoading((prevLoading) => ({ ...prevLoading, login: true }));
-      const { data } = await post("/api/customer/login", { ...login, codepin });
-      // call api
+      const { data } = await post("/api/customer/login", {
+        phone: login.phone,
+        codepin,
+      });
       if (data.status) {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("expired", new Date().getTime() + 43200000);
@@ -81,7 +91,29 @@ function App() {
       setLoading((prevLoading) => ({ ...prevLoading, login: false }));
     } catch (error) {
       handleAddToast({
-        text: "Xảy ra lỗi hệ thống",
+        text: "Mật khẩu không chính xác",
+        type: "danger",
+        title: "",
+      });
+      setLoading((prevLoading) => ({ ...prevLoading, login: false }));
+    }
+  };
+
+  const handleRegister = async (codepin) => {
+    try {
+      setLoading((prevLoading) => ({ ...prevLoading, login: true }));
+      const { data } = await post("/api/customer/create", {
+        phone: login.phone,
+        codepin,
+      });
+      if (data.status) {
+        await handleLogin(codepin);
+      } else {
+        setLoading((prevLoading) => ({ ...prevLoading, login: false }));
+      }
+    } catch (error) {
+      handleAddToast({
+        text: "Đăng ký không thành công",
         type: "danger",
         title: "",
       });
@@ -196,7 +228,11 @@ function App() {
         setFactories(data.data);
       }
     } catch (error) {
-      // alert(error);
+      handleAddToast({
+        text: "Không lấy được danh sách địa chỉ",
+        type: "danger",
+        title: "",
+      });
     }
   };
   const callApiService = async () => {
@@ -206,7 +242,11 @@ function App() {
         setServices(data.data);
       }
     } catch (error) {
-      // alert(error);
+      handleAddToast({
+        text: "Không lấy được danh sách dịch vụ",
+        type: "danger",
+        title: "",
+      });
     }
   };
   return (
@@ -242,14 +282,14 @@ function App() {
           loading={loading.phone}
           setLoading={setLoading}
           onClose={() => login.phone && setVisibleLogin(false)}
-          onSubmit={(phone) => handleEnterPhone(phone)}
+          onSubmit={(phone, type) => handleEnterPhone(phone, type)}
           handleAddToast={handleAddToast}
         />
       )}
       {/* <ModalOTP /> */}
       {visiblePassword && (
         <ModalPassword
-          phone={login.phone}
+          data={login}
           visible={visiblePassword}
           loading={loading.login}
           setLoading={setLoading}
@@ -258,7 +298,9 @@ function App() {
             setVisiblePassword(false);
             setLogin((prevData) => ({ ...prevData, phone: "" }));
           }}
+          // setLogin={setLogin}
           onSubmit={(password) => handleSubmitPassword(password)}
+          handleAddToast={handleAddToast}
         />
       )}
       <ToastSnackbar toasts={toasts} setToasts={setToasts} />

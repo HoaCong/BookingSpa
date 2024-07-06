@@ -1,4 +1,4 @@
-import { formatCurrency } from "helper/forrmatCurrency";
+import { formatCurrency } from "helper/functions";
 import { Button, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import SwiperTime from "./SwiperTime";
@@ -161,7 +161,7 @@ export default function Booking3Step({
             disabled={loading}
             variant="primary"
             onClick={handleSubmit}
-            className="w-100 d-flex justify-content-center align-items-center"
+            className="fs-5 w-100 d-flex justify-content-center align-items-center"
           >
             {loading && (
               <div

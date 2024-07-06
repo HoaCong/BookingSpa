@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+const initialPassword = new Array(6).fill("");
 export default function ModalPassword({
   loading,
-  phone,
+  data,
   visible,
   onClose,
   onSubmit,
+  // setLogin,
+  handleAddToast,
 }) {
   const inputRefs = useRef([]);
-  const [password, setPassword] = useState(new Array(6).fill(""));
+  const [password, setPassword] = useState([...initialPassword]);
 
   useEffect(() => {
     inputRefs.current[0].focus();
@@ -25,6 +28,8 @@ export default function ModalPassword({
       if (index < 5) {
         inputRefs.current[index + 1].focus();
       }
+    } else {
+      inputRefs.current[index].value = "";
     }
   };
   const handleKeyDown = (event, data, index) => {
@@ -46,7 +51,11 @@ export default function ModalPassword({
       let newPassword = value.split("");
       setPassword(newPassword);
     } else {
-      alert("Vui lòng nhập một chuỗi gồm 6 chữ số.");
+      handleAddToast({
+        text: "Vui lòng nhập một chuỗi gồm 6 chữ số",
+        type: "danger",
+        title: "",
+      });
     }
   };
 
@@ -54,6 +63,44 @@ export default function ModalPassword({
     let pasteValue = event.clipboardData.getData("text");
     parseAndFillOTP(pasteValue);
     event.preventDefault();
+  };
+
+  const checkPassword = () => {
+    const codepin = password.join("");
+    if (codepin.length < 6) {
+      handleAddToast({
+        text: "Vui lòng nhập đầy đủ 6 chữ số",
+        type: "danger",
+        title: "",
+      });
+    } else onSubmit(codepin);
+  };
+  // const handleResetPassword = () => {
+  //   setLogin((prevLogin) => ({
+  //     ...prevLogin,
+  //     type: "update",
+  //     codepin: null,
+  //   }));
+  //   setPassword(() => {
+  //     const newValue = [...initialPassword];
+  //     newValue.forEach((item, index) => {
+  //       inputRefs.current[index].value = item;
+  //     });
+  //     return newValue;
+  //   });
+  // };
+
+  const title = () => {
+    switch (data.type) {
+      case "login":
+        return "Nhập";
+      case "register":
+        return "Tạo";
+      case "update":
+        return "Đặt lại";
+      default:
+        return "Nhập";
+    }
   };
 
   return (
@@ -65,11 +112,11 @@ export default function ModalPassword({
         dialogClassName="width-450"
       >
         <Modal.Header closeButton>
-          <Modal.Title className="title-modal">Nhập mật khẩu</Modal.Title>
+          <Modal.Title className="title-modal">{title()} mật khẩu</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
           <div className="text-center content-modal px-4">
-            Nhập mật khẩu của tài khoản: <span>{phone}</span>
+            {title()} mật khẩu của tài khoản: <span>{data.phone}</span>
           </div>
           <Form className="my-3 px-2 px-md-3 mt-4">
             <div className="d-flex justify-content-between">
@@ -89,9 +136,14 @@ export default function ModalPassword({
               ))}
             </div>
           </Form>
-          <div className="text-center text-14 text-primary cursor-pointer">
-            Quên mật khẩu
-          </div>
+          {/* {data.type === "login" && (
+            <div
+              className="text-center text-14 text-primary cursor-pointer"
+              onClick={() => handleResetPassword()}
+            >
+              Quên mật khẩu
+            </div>
+          )} */}
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex w-100 gap-3">
@@ -105,7 +157,7 @@ export default function ModalPassword({
             <Button
               disabled={loading}
               variant="primary"
-              onClick={() => onSubmit(password)}
+              onClick={checkPassword}
               className="w-50 py-2 text-18 d-flex justify-content-center align-items-center"
             >
               {loading && (

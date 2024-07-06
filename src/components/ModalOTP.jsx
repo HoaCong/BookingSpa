@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-export default function ModalOTP() {
+export default function ModalOTP({ handleAddToast }) {
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -42,8 +42,11 @@ export default function ModalOTP() {
       let newOtp = value.split("");
       setOtp(newOtp);
     } else {
-      // đưa cái alert lên
-      alert("Vui lòng nhập một chuỗi gồm 6 chữ số.");
+      handleAddToast({
+        text: "Vui lòng nhập một chuỗi gồm 6 chữ số",
+        type: "danger",
+        title: "",
+      });
     }
   };
 
