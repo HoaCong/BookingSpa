@@ -56,7 +56,8 @@ body {
 }
 .react-datepicker-popper {
   z-index: 1607;
-  overflow: hidden;
+  width: 100%;
+  text-align: center;
 }
 
 /* end common css */
