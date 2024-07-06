@@ -30,11 +30,12 @@ const Check = () => (
 
 export default function ListService({
   list,
-  prevSelected = [],
+  selected: prevSelected = [],
   onBack,
   onSelect,
 }) {
   const [selected, setSelected] = useState(prevSelected);
+  console.log("selected:", selected);
   const handleChoose = (item) => {
     setSelected((prevData) => {
       if (selected.includes(item)) return prevData.filter((e) => e !== item);

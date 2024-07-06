@@ -115,7 +115,7 @@ export default function Booking3Step({
 
               <li className="timeline-item text-input">
                 <div className="title-timeline">3. Chọn thời gian</div>
-                <div className="mt-2">
+                <div className="mt-2 overflow-hidden">
                   <DatePicker
                     disabled={!data.factory}
                     placeholderText="Chọn thời gian"
