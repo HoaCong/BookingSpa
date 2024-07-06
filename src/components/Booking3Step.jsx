@@ -121,7 +121,8 @@ export default function Booking3Step({
                     placeholderText="Chọn thời gian"
                     selected={data.date}
                     dateFormat="dd/MM/yyyy" // Định dạng ngày
-                    className="form-control w-100 text-14"
+                    className="form-control py-2 w-100 text-14"
+                    minDate={new Date()}
                     isClearable={true}
                     onChange={(date) => {
                       setData({ ...data, date });
