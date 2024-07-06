@@ -115,13 +115,14 @@ export default function Booking3Step({
 
               <li className="timeline-item text-input">
                 <div className="title-timeline">3. Chọn thời gian</div>
-                <div className="mt-2 overflow-hidden">
+                <div className="mt-2">
                   <DatePicker
                     disabled={!data.factory}
                     placeholderText="Chọn thời gian"
                     selected={data.date}
                     dateFormat="dd/MM/yyyy" // Định dạng ngày
                     className="form-control w-100 text-14"
+                    isClearable={true}
                     onChange={(date) => {
                       setData({ ...data, date });
                     }}

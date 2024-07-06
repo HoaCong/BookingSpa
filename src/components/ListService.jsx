@@ -35,7 +35,6 @@ export default function ListService({
   onSelect,
 }) {
   const [selected, setSelected] = useState(prevSelected);
-  console.log("selected:", selected);
   const handleChoose = (item) => {
     setSelected((prevData) => {
       if (selected.includes(item)) return prevData.filter((e) => e !== item);
