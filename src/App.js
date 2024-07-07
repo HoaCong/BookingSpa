@@ -175,12 +175,7 @@ function App() {
           phone: localStorage.getItem("phone"),
           note: data.note,
           factoryid: data.factory.id,
-          services: JSON.stringify(
-            data.services.map((item) => ({
-              id: item.id,
-              name: `${item.name} - ${item.numbersesion} buổi`,
-            }))
-          ),
+          services: JSON.stringify(data.services.map((item) => item.id)),
           timedate: format(data.date, "yyyy-MM-dd"),
           timehour: data.time,
         });
