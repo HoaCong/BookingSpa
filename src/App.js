@@ -181,7 +181,8 @@ function App() {
               name: `${item.name} - ${item.numbersesion} buổi`,
             }))
           ),
-          time: `${format(data.date, "yyyy-MM-dd")}T${data.time}:00.000Z`,
+          timedate: format(data.date, "yyyy-MM-dd"),
+          timehour: data.time,
         });
         if (res.status) {
           handleAddToast({

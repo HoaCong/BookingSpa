@@ -148,6 +148,7 @@ export default function ModalPassword({
         <Modal.Footer>
           <div className="d-flex w-100 gap-3">
             <Button
+              disabled={loading}
               variant="outline-secondary"
               onClick={onClose}
               className="w-50 py-2 text-14"
