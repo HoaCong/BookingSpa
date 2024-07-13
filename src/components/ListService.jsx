@@ -74,7 +74,7 @@ export default function ListService({
             className="w-50 text-center text-14 cursor-pointer"
             onClick={() => scrollToId("CHAM_DA")}
           >
-            Chăn sóc da
+            Chăm sóc da
           </div>
         </div>
         <hr className="mt-0" />
