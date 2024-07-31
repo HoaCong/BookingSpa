@@ -70,7 +70,10 @@ body {
   min-width: 80px;
 }
 .booking-container {
-  background: url("assets/images/bg.png") no-repeat top/contain;
+  /* background-image: url("assets/images/bg.svg"); */
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top;
   background-color: #deecff;
   width: 500px;
   max-width: 100%;
