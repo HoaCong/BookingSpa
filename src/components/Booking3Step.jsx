@@ -14,7 +14,7 @@ export default function Booking3Step({
 }) {
   const color_bg = "#0d6efd";
   const svgString = encodeURIComponent(
-    `<svg viewBox="0 0 500 670" xmlns="http://www.w3.org/2000/svg">
+    `<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
        <path fill="${color_bg}" d="M 0.513 274.158 C -253.073 -353.471 859.722 -345.823 501.476 342.796 C 349.82 253.786 209.056 446.27 0.513 274.158 Z"></path>
      </svg>`
   );
