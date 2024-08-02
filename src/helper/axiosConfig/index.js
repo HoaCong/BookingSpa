@@ -1,6 +1,5 @@
 import axios from "axios";
 
-console.log(process.env.REACT_APP_BASE_API, 111111111111);
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_API || "https://systemsapa.onrender.com",
   headers: { "Content-Type": "application/json" },
