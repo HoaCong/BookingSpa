@@ -29,6 +29,7 @@ const Check = () => (
 );
 
 export default function ListService({
+  setting: { colorone },
   list,
   selected: prevSelected = [],
   onBack,
@@ -53,7 +54,10 @@ export default function ListService({
   };
   return (
     <section className="list_service">
-      <div className="d-flex justify-content-between p-3 bg-primary text-light">
+      <div
+        className="d-flex justify-content-between p-3 text-light"
+        style={{ backgroundColor: colorone || "#0d6efd" }}
+      >
         <div
           className="cursor-pointer d-flex justify-content-center align-items-center gap-1"
           onClick={() => onBack()}
@@ -92,7 +96,10 @@ export default function ListService({
                       <div className="desc-service mb-3">
                         Thời gian: {item.time}
                       </div>
-                      <div className="text-primary price-service">
+                      <div
+                        className="price-service"
+                        style={{ color: colorone || "#0d6efd" }}
+                      >
                         {formatCurrencyToK(item.price)}
                       </div>
                     </div>
@@ -103,6 +110,14 @@ export default function ListService({
                       }
                       className="w-100 mt-auto"
                       onClick={() => handleChoose(item)}
+                      style={{
+                        backgroundColor: selected?.includes(item)
+                          ? colorone
+                          : "transparent",
+                        borderColor: selected?.includes(item)
+                          ? "inherit"
+                          : colorone,
+                      }}
                     >
                       {selected?.includes(item) ? (
                         <span className="d-flex justify-content-center align-items-center gap-2">
@@ -110,7 +125,9 @@ export default function ListService({
                           <span>Đã chọn</span>
                         </span>
                       ) : (
-                        "Chọn"
+                        <span style={{ color: colorone || "inherit" }}>
+                          Chọn
+                        </span>
                       )}
                     </Button>
                   </Card.Body>
@@ -124,6 +141,10 @@ export default function ListService({
             variant="primary"
             className="w-100"
             onClick={() => handleSelect()}
+            style={{
+              backgroundColor: colorone || "#0d6efd",
+              borderColor: "inherit",
+            }}
           >
             Tiếp tục ({selected.length} dịch vụ)
           </Button>

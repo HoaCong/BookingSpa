@@ -31,6 +31,7 @@ function App() {
   const [visibleLogin, setVisibleLogin] = useState(false);
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [factories, setFactories] = useState([]);
+  const [setting, setSetting] = useState([]);
   const [services, setServices] = useState([]);
   const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(initialLoading);
@@ -50,6 +51,7 @@ function App() {
       callApiService();
     }
     callApiFactories();
+    callApiSetting();
     return () => {
       // second
     };
@@ -231,6 +233,20 @@ function App() {
       });
     }
   };
+  const callApiSetting = async () => {
+    try {
+      const { data } = await get("/api/setting");
+      if (data.status) {
+        setSetting(data.data);
+      }
+    } catch (error) {
+      handleAddToast({
+        text: "Không lấy được thông tin cấu hình",
+        type: "danger",
+        title: "",
+      });
+    }
+  };
   const callApiService = async () => {
     try {
       const { data } = await get("/api/product/active/search");
@@ -250,6 +266,7 @@ function App() {
       {!visibleService && (
         <Booking3Step
           data={{
+            setting,
             data,
             factories,
             loading: loading.booking,
@@ -266,6 +283,7 @@ function App() {
       )}
       {visibleService && (
         <ListService
+          setting={setting}
           list={services}
           selected={data.services}
           onBack={() => setVisibleService(false)}
@@ -274,6 +292,7 @@ function App() {
       )}
       {visibleLogin && (
         <ModalPhone
+          setting={setting}
           visible={visibleLogin}
           loading={loading.phone}
           setLoading={setLoading}
@@ -285,6 +304,7 @@ function App() {
       {/* <ModalOTP /> */}
       {visiblePassword && (
         <ModalPassword
+          setting={setting}
           data={login}
           visible={visiblePassword}
           loading={loading.login}

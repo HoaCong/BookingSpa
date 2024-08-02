@@ -113,11 +113,27 @@ body {
 .timeline .timeline-item {
   position: relative;
 }
-.timeline .timeline-item:not(:last-child):after {
+/* .timeline .timeline-item:not(:last-child):after {
   left: -13px;
   width: 1px;
   height: 100%;
   content: "";
+  position: absolute;
+  top: 5px;
+  background-color: #0d6efd;
+} */
+.dot_timeline {
+  background-color: #0d6efd;
+  left: -20px;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+}
+.line_timeline {
+  left: -13px;
+  width: 1px;
+  height: 100%;
   position: absolute;
   top: 5px;
   background-color: #0d6efd;
@@ -129,14 +145,14 @@ body {
   top: 5px;
 }
 
-.timeline .timeline-item::before {
+/* .timeline .timeline-item::before {
   background-color: #0d6efd;
   left: -20px;
   border-radius: 50%;
   height: 15px;
   width: 15px;
   content: "";
-}
+} */
 
 .title-timeline {
   color: #0d6efd;
