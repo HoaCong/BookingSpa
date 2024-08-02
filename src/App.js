@@ -6,6 +6,7 @@ import Booking3Step from "components/Booking3Step";
 import ToastSnackbar from "components/ToastSnackbar";
 import { format } from "date-fns";
 import { get, post } from "helper/ajax";
+import { Spinner } from "react-bootstrap";
 import ModalPassword from "./components/ModalPassword";
 const initialData = {
   factory: null,
@@ -21,6 +22,7 @@ const initialLoading = {
   booking: false,
 };
 function App() {
+  const [loadSetting, setLoadSetting] = useState(false);
   const [toasts, setToasts] = useState([]);
   const [visibleService, setVisibleService] = useState(false);
   const [login, setLogin] = useState({
@@ -249,11 +251,14 @@ function App() {
   };
   const callApiService = async () => {
     try {
+      setLoadSetting(true);
       const { data } = await get("/api/product/active/search");
       if (data.status) {
+        setLoadSetting(false);
         setServices(data.data);
       }
     } catch (error) {
+      setLoadSetting(false);
       handleAddToast({
         text: "Không lấy được danh sách dịch vụ",
         type: "danger",
@@ -261,7 +266,16 @@ function App() {
       });
     }
   };
-  return (
+  return loadSetting ? (
+    <div
+      className="d-flex justify-content-center align-items-center w-full"
+      style={{ height: "100vh" }}
+    >
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    </div>
+  ) : (
     <div>
       {!visibleService && (
         <Booking3Step
