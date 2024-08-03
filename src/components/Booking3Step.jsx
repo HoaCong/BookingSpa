@@ -1,6 +1,7 @@
 import { formatCurrency } from "helper/functions";
 import { Button, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
+import LazyLoadImage from "./LazyLoadImage";
 import SwiperTime from "./SwiperTime";
 export default function Booking3Step({
   data: {
@@ -34,14 +35,7 @@ export default function Booking3Step({
       style={{ backgroundImage, backgroundColor: colorthree || color_bg_3 }}
     >
       <div className="d-flex justify-content-between align-items-center mt-2 mb-4">
-        <img
-          alt="cent beauty"
-          src={logo || "https://centbeauty.com/assets/images/logo-booking.svg"}
-          decoding="async"
-          data-nimg="intrinsic"
-          className="logo"
-          srcSet="https://centbeauty.com/assets/images/logo-booking.svg 1x, https://centbeauty.com/assets/images/logo-booking.svg 2x"
-        />
+        <LazyLoadImage alt={logo} src={logo} className="logo" />
         <div className="text-light hotline">
           <span className="me-3">Hotline</span>{" "}
           {(numberPhone || "####.###.###").replace(
