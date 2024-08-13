@@ -247,7 +247,8 @@ body {
   box-shadow: 0 48px 100px 0 rgba(17, 12, 46, 0.15);
 }
 .content_list_service {
-  height: calc(100vh - 163px);
+  height: calc(100svh - 163px);
+  max-height: calc(100dvh - 163px);
   overflow: hidden scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;

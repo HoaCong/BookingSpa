@@ -72,13 +72,13 @@ export default function ListService({
             className="w-50 text-center text-14 cursor-pointer"
             onClick={() => scrollToId("TRIET_LONG")}
           >
-            Triệt lông
+            Liệu trình
           </div>
           <div
             className="w-50 text-center text-14 cursor-pointer"
             onClick={() => scrollToId("CHAM_DA")}
           >
-            Chăm sóc da
+            Thông thường
           </div>
         </div>
         <hr className="mt-0" />
