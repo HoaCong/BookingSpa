@@ -1,6 +1,8 @@
+import imgDefault from "assets/images/No-Image-Placeholder.png";
 import { formatCurrencyToK } from "helper/functions";
 import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
+import LazyLoadImage from "./LazyLoadImage";
 const ArrowLeft = () => (
   <svg
     viewBox="64 64 896 896"
@@ -86,8 +88,14 @@ export default function ListService({
           <div className="row row-cols-2 g-3">
             {list.map((item) => (
               <div className="col" key={item.id} id={item.category}>
-                <Card className="h-100">
-                  <Card.Img variant="top" src={item.image} />
+                <Card className="h-100 overflow-hidden">
+                  <div className="img-card">
+                    <LazyLoadImage
+                      alt={item.image}
+                      src={item.image}
+                      defaultImage={imgDefault}
+                    />
+                  </div>
                   <Card.Body className="p-2 d-flex flex-column">
                     <Card.Title className="title-service">
                       {item.name} - {item.numbersesion} buổi

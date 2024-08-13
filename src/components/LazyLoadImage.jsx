@@ -26,7 +26,8 @@ function useLazyLoadImage(src, defaultImage) {
 function LazyLoadImage({ src, alt, ...restProps }) {
   const { imageSrc } = useLazyLoadImage(
     src,
-    "https://centbeauty.com/assets/images/logo-booking.svg"
+    restProps?.defaultImage ||
+      "https://centbeauty.com/assets/images/logo-booking.svg"
   );
 
   return <img id="image_lazyload" src={imageSrc} alt={alt} {...restProps} />;
