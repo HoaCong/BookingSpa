@@ -126,7 +126,7 @@ export default function ModalPassword({
                   key={index}
                   ref={(el) => (inputRefs.current[index] = el)}
                   type="text"
-                  inputmode="numeric"
+                  inputMode="numeric"
                   className="password-input"
                   maxLength={1}
                   id={`passwordInput-${index}`}

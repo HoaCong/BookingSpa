@@ -22,7 +22,6 @@ const initialLoading = {
   booking: false,
 };
 function App() {
-  const [loadSetting, setLoadSetting] = useState(false);
   const [toasts, setToasts] = useState([]);
   const [visibleService, setVisibleService] = useState(false);
   const [login, setLogin] = useState({
@@ -251,14 +250,11 @@ function App() {
   };
   const callApiService = async () => {
     try {
-      setLoadSetting(true);
       const { data } = await get("/api/product/active/search");
       if (data.status) {
-        setLoadSetting(false);
         setServices(data.data);
       }
     } catch (error) {
-      setLoadSetting(false);
       handleAddToast({
         text: "Không lấy được danh sách dịch vụ",
         type: "danger",
@@ -266,16 +262,7 @@ function App() {
       });
     }
   };
-  return loadSetting ? (
-    <div
-      className="d-flex justify-content-center align-items-center w-full"
-      style={{ height: "100vh" }}
-    >
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-    </div>
-  ) : (
+  return (
     <div>
       {!visibleService && (
         <Booking3Step
