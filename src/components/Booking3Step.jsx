@@ -92,7 +92,10 @@ export default function Booking3Step({
                       className="cursor-pointer"
                       onClick={() => setData({ ...data, factory: null })}
                     >
-                      <i className="fas fa-times text-primary"></i>
+                      <i
+                        className="fas fa-times"
+                        style={{ color: color_bg_1 || "#0d6efd" }}
+                      ></i>
                     </span>
                   </div>
                 ) : (
@@ -147,7 +150,8 @@ export default function Booking3Step({
                           </div>
                           <span className="cursor-pointer">
                             <i
-                              className="fas fa-times text-primary"
+                              className="fas fa-times"
+                              style={{ color: color_bg_1 || "#0d6efd" }}
                               onClick={() => handleRemoveService(item)}
                             ></i>
                           </span>
