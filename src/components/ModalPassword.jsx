@@ -125,7 +125,7 @@ export default function ModalPassword({
                 <Form.Control
                   key={index}
                   ref={(el) => (inputRefs.current[index] = el)}
-                  type="text"
+                  type="number"
                   className="password-input"
                   maxLength={1}
                   id={`passwordInput-${index}`}
