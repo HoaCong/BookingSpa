@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 const initialPassword = new Array(6).fill("");
 export default function ModalPassword({
-  setting: { colorone, colortwo, colorthree },
+  // setting: { color_bg_1, colortwo, colorthree },
   loading,
   data,
   visible,
@@ -11,6 +11,9 @@ export default function ModalPassword({
   // setLogin,
   handleAddToast,
 }) {
+  const color_bg_1 = "#e96512";
+  // const color_bg_2 = "#e77829";
+  // const color_bg_3 = "#e5b591";
   const inputRefs = useRef([]);
   const [password, setPassword] = useState([...initialPassword]);
 
@@ -163,7 +166,7 @@ export default function ModalPassword({
               onClick={checkPassword}
               className="w-50 py-2 text-18 d-flex justify-content-center align-items-center"
               style={{
-                background: colorone || "unset",
+                background: color_bg_1 || "unset",
                 borderColor: "inherit",
               }}
             >

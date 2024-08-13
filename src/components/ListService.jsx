@@ -31,12 +31,13 @@ const Check = () => (
 );
 
 export default function ListService({
-  setting: { colorone },
   list,
   selected: prevSelected = [],
   onBack,
   onSelect,
 }) {
+  const color_bg_1 = "#e96512";
+
   const [selected, setSelected] = useState(prevSelected);
   const handleChoose = (item) => {
     setSelected((prevData) => {
@@ -58,7 +59,7 @@ export default function ListService({
     <section className="list_service">
       <div
         className="d-flex justify-content-between p-3 text-light"
-        style={{ backgroundColor: colorone || "#0d6efd" }}
+        style={{ backgroundColor: color_bg_1 || "#0d6efd" }}
       >
         <div
           className="cursor-pointer d-flex justify-content-center align-items-center gap-1"
@@ -106,7 +107,7 @@ export default function ListService({
                       </div>
                       <div
                         className="price-service"
-                        style={{ color: colorone || "#0d6efd" }}
+                        style={{ color: color_bg_1 || "#0d6efd" }}
                       >
                         {formatCurrencyToK(item.price)}
                       </div>
@@ -120,11 +121,11 @@ export default function ListService({
                       onClick={() => handleChoose(item)}
                       style={{
                         backgroundColor: selected?.includes(item)
-                          ? colorone
+                          ? color_bg_1
                           : "transparent",
                         borderColor: selected?.includes(item)
                           ? "inherit"
-                          : colorone,
+                          : color_bg_1,
                       }}
                     >
                       {selected?.includes(item) ? (
@@ -133,7 +134,7 @@ export default function ListService({
                           <span>Đã chọn</span>
                         </span>
                       ) : (
-                        <span style={{ color: colorone || "inherit" }}>
+                        <span style={{ color: color_bg_1 || "inherit" }}>
                           Chọn
                         </span>
                       )}
@@ -150,7 +151,7 @@ export default function ListService({
             className="w-100"
             onClick={() => handleSelect()}
             style={{
-              backgroundColor: colorone || "#0d6efd",
+              backgroundColor: color_bg_1 || "#0d6efd",
               borderColor: "inherit",
             }}
           >

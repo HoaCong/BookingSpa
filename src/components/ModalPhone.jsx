@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 export default function ModalPhone({
-  setting: { colorone, colortwo, colorthree },
   loading,
   setLoading,
   visible,
@@ -12,6 +11,9 @@ export default function ModalPhone({
   onSubmit,
   handleAddToast,
 }) {
+  const color_bg_1 = "#e96512";
+  // const color_bg_2 = "#e77829";
+  // const color_bg_3 = "#e5b591";
   const [phone, setPhone] = useState("");
   const handleCheckPhone = async () => {
     try {
@@ -65,7 +67,10 @@ export default function ModalPhone({
             variant="primary"
             onClick={handleCheckPhone}
             className="w-100 py-2 fs-5 d-flex justify-content-center align-items-center"
-            style={{ background: colorone || "unset", borderColor: "inherit" }}
+            style={{
+              background: color_bg_1 || "unset",
+              borderColor: "inherit",
+            }}
           >
             {loading && (
               <div

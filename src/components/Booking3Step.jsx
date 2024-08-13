@@ -1,3 +1,4 @@
+import logoDefault from "assets/images/logo.png";
 import { formatCurrency } from "helper/functions";
 import { Button, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
@@ -5,7 +6,7 @@ import LazyLoadImage from "./LazyLoadImage";
 import SwiperTime from "./SwiperTime";
 export default function Booking3Step({
   data: {
-    setting: { colorone, colortwo, colorthree, numberPhone, logo },
+    // setting: { colorone, colortwo, colorthree, numberPhone, logo },
     data,
     factories,
     loading,
@@ -18,24 +19,32 @@ export default function Booking3Step({
     handleSubmit,
   },
 }) {
-  const color_bg_1 = "#0d6efd";
-  const color_bg_2 = "#6ea8fe";
-  const color_bg_3 = "#deecff";
+  // colorone: "#e96512";
+  // colorthree: "#e5b591";
+  // colortwo: "#e77829";
+  const color_bg_1 = "#e96512";
+  const color_bg_2 = "#e77829";
+  const color_bg_3 = "#e5b591";
+  const logo = "https://imgur.com/WZPKu5s.png";
+  const numberPhone = "1900686868";
   const svgString = encodeURIComponent(
     `<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-       <path fill="${
-         colorone || color_bg_1
-       }" d="M 0.513 274.158 C -253.073 -353.471 859.722 -345.823 501.476 342.796 C 349.82 253.786 209.056 446.27 0.513 274.158 Z"></path>
+       <path fill="${color_bg_1}" d="M 0.513 274.158 C -253.073 -353.471 859.722 -345.823 501.476 342.796 C 349.82 253.786 209.056 446.27 0.513 274.158 Z"></path>
      </svg>`
   );
   const backgroundImage = `url("data:image/svg+xml,${svgString}")`;
   return (
     <div
       className="m-auto booking-container p-2 pt-3 p-md-3 pt-md-4"
-      style={{ backgroundImage, backgroundColor: colorthree || color_bg_3 }}
+      style={{ backgroundImage, backgroundColor: color_bg_3 }}
     >
       <div className="d-flex justify-content-between align-items-center mt-2 mb-4">
-        <LazyLoadImage alt={logo} src={logo} className="logo" />
+        <LazyLoadImage
+          alt={logo}
+          src={logo}
+          defaultImage={logoDefault}
+          className="logo"
+        />
         <div className="text-light hotline">
           <span className="me-3">Hotline</span>{" "}
           {(numberPhone || "####.###.###").replace(
@@ -47,7 +56,7 @@ export default function Booking3Step({
       <div className="booking-content">
         <div
           className="content-header text-center text-light"
-          style={{ background: colortwo || color_bg_2 }}
+          style={{ background: color_bg_2 }}
         >
           Đặt lịch 3 bước
         </div>
@@ -57,15 +66,15 @@ export default function Booking3Step({
               <li className="timeline-item">
                 <div
                   className="dot_timeline"
-                  style={{ backgroundColor: colorone || "inherit" }}
+                  style={{ backgroundColor: color_bg_1 || "inherit" }}
                 ></div>
                 <div
                   className="line_timeline"
-                  style={{ backgroundColor: colorone || "inherit" }}
+                  style={{ backgroundColor: color_bg_1 || "inherit" }}
                 ></div>
                 <div
                   className="title-timeline"
-                  style={{ color: colorone || "#0d6efd" }}
+                  style={{ color: color_bg_1 || "#0d6efd" }}
                 >
                   1. Chọn chi nhánh
                 </div>
@@ -73,7 +82,7 @@ export default function Booking3Step({
                   <div
                     className="p-3 d-flex justify-content-between rounded-3 bg-blue-50"
                     style={{
-                      backgroundColor: colorthree || "inherit",
+                      backgroundColor: color_bg_3 || "inherit",
                     }}
                   >
                     <div style={{ width: "100%", maxWidth: 350 }}>
@@ -107,15 +116,15 @@ export default function Booking3Step({
               <li className="timeline-item">
                 <div
                   className="dot_timeline"
-                  style={{ backgroundColor: colorone || "inherit" }}
+                  style={{ backgroundColor: color_bg_1 || "inherit" }}
                 ></div>
                 <div
                   className="line_timeline"
-                  style={{ backgroundColor: colorone || "inherit" }}
+                  style={{ backgroundColor: color_bg_1 || "inherit" }}
                 ></div>
                 <div
                   className="title-timeline"
-                  style={{ color: colorone || "#0d6efd" }}
+                  style={{ color: color_bg_1 || "#0d6efd" }}
                 >
                   2. Chọn dịch vụ
                 </div>
@@ -123,7 +132,7 @@ export default function Booking3Step({
                   {data.services.length ? (
                     <div
                       className="py-2 px-3 rounded-3 bg-blue-50"
-                      style={{ backgroundColor: colorthree || color_bg_3 }}
+                      style={{ backgroundColor: color_bg_3 }}
                     >
                       {data.services.map((item, index) => (
                         <div
@@ -163,8 +172,8 @@ export default function Booking3Step({
                     onClick={() => handleChooseService()}
                     style={{
                       backgroundColor: "inherit",
-                      borderColor: colorone,
-                      color: colorone || "inherit",
+                      borderColor: color_bg_1,
+                      color: color_bg_1 || "inherit",
                     }}
                   >
                     + Chọn dịch vụ
@@ -175,11 +184,11 @@ export default function Booking3Step({
               <li className="timeline-item text-input">
                 <div
                   className="dot_timeline"
-                  style={{ backgroundColor: colorone || "inherit" }}
+                  style={{ backgroundColor: color_bg_1 || "inherit" }}
                 ></div>
                 <div
                   className="title-timeline"
-                  style={{ color: colorone || "#0d6efd" }}
+                  style={{ color: color_bg_1 || "#0d6efd" }}
                 >
                   3. Chọn thời gian
                 </div>
@@ -207,7 +216,7 @@ export default function Booking3Step({
                       Chọn khung giờ (từ 11:00 đến 19:30)
                     </div>
                     <SwiperTime
-                      bgColor={colorthree}
+                      bgColor={color_bg_3}
                       time={data.time}
                       onSelect={(time) => setData({ ...data, time })}
                     />
@@ -220,7 +229,7 @@ export default function Booking3Step({
             className="mb-3 ps-3 text-pink"
             controlId="form.description"
           >
-            <Form.Label style={{ color: colorone || "#0d6efd" }}>
+            <Form.Label style={{ color: color_bg_1 || "#0d6efd" }}>
               Ghi chú
             </Form.Label>
             <Form.Control
@@ -236,7 +245,7 @@ export default function Booking3Step({
             onClick={handleSubmit}
             className="fs-5 w-100 d-flex justify-content-center align-items-center"
             style={{
-              background: colorone || "inherit",
+              background: color_bg_1 || "inherit",
               borderColor: "inherit",
             }}
           >
